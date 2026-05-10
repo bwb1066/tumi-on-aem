@@ -88,6 +88,13 @@ header {
   height: var(--nav-height);
 }
 
+@media (width >= 900px) {
+  /* util-nav (~36px) + main nav (64px) */
+  header {
+    height: calc(var(--nav-height) + 36px);
+  }
+}
+
 header .header,
 footer .footer {
   visibility: hidden;

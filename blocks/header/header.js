@@ -113,10 +113,13 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // load nav as fragment
+  // load nav and util-nav fragments in parallel
   const navMeta = getMetadata('nav');
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const fragment = await loadFragment(navPath);
+  const [fragment, utilNavFragment] = await Promise.all([
+    loadFragment(navPath),
+    loadFragment('/fragments/util-nav'),
+  ]);
 
   // decorate nav DOM
   block.textContent = '';
@@ -167,5 +170,13 @@ export default async function decorate(block) {
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
+
+  if (utilNavFragment) {
+    const utilNavWrapper = document.createElement('div');
+    utilNavWrapper.className = 'util-nav-wrapper';
+    while (utilNavFragment.firstElementChild) utilNavWrapper.append(utilNavFragment.firstElementChild);
+    block.append(utilNavWrapper);
+  }
+
   block.append(navWrapper);
 }

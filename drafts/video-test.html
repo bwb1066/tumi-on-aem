@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <script src="/scripts/aem.js" type="module"></script>
+  <script src="/scripts/scripts.js" type="module"></script>
+  <link rel="stylesheet" href="https://use.typekit.net/caz2wxx.css"/>
+  <link rel="stylesheet" href="/styles/styles.css"/>
+</head>
+<body>
+  <header></header>
+  <main>
+    <div>
+      <h1>Video Block Test</h1>
+
+      <h2>Standard video (with controls)</h2>
+      <div class="video block" data-block-name="video">
+        <div><div><a href="/videos/hero.mp4">/videos/hero.mp4</a></div></div>
+      </div>
+
+      <h2>Background video (autoplay, muted, loop)</h2>
+      <div style="position:relative;height:400px;">
+        <div class="video background block" data-block-name="video">
+          <div><div><a href="/videos/hero.mp4">/videos/hero.mp4</a></div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+</html>

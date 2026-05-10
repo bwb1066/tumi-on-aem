@@ -1,0 +1,50 @@
+/* hidden on mobile — main nav is fixed and util-nav would overlap */
+header .util-nav-wrapper {
+  display: none;
+}
+
+@media (width >= 900px) {
+  header .util-nav-wrapper {
+    display: block;
+    background-color: var(--light-color);
+    border-bottom: 1px solid #e8e8e8;
+  }
+}
+
+.util-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1264px;
+  margin: 0 auto;
+  padding: 8px 32px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+.util-nav-promo a:any-link {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+.util-nav-store {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.util-nav-store .icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.util-nav-store a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.util-nav-store a:hover {
+  text-decoration: underline;
+}
