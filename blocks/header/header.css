@@ -33,11 +33,12 @@ header .util-nav-wrapper {
     padding: 6px 0;
   }
 
-  /* each column */
+  /* each column — override columns.css flex: 1 so space-between works */
   header .util-nav-wrapper .columns > div > div {
     display: flex;
     align-items: center;
     gap: 6px;
+    flex: 0 0 auto;
   }
 
   /* hide empty middle column */
@@ -51,12 +52,12 @@ header .util-nav-wrapper {
     text-decoration: none;
   }
 
-  /* "Shop Now" is the last link in the promo column — underline it */
-  header .util-nav-wrapper .columns > div > div:first-child a:last-child {
+  header .util-nav-wrapper .columns a:hover {
     text-decoration: underline;
   }
 
-  header .util-nav-wrapper .columns a:hover {
+  /* "Shop Now" is the last link in the promo column — underline it */
+  header .util-nav-wrapper .columns > div > div:first-child a:last-child {
     text-decoration: underline;
   }
 
@@ -287,7 +288,7 @@ header nav .nav-sections ul > li > ul > li {
 /* mobile: stacked list items */
 header nav[aria-expanded='true'] .nav-sections ul > li {
   padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
 }
 
 @media (width >= 900px) {
@@ -339,39 +340,82 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
     transform: scaleX(1);
   }
 
-  /* dropdown panel */
-  header nav .nav-sections .default-content-wrapper > ul > li > ul {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 200px;
-    padding: 16px 20px;
-    background-color: #fff;
-    color: var(--text-color);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    white-space: initial;
-    z-index: 200;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
-    display: block;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
-    padding: 8px 0;
-    font-size: 14px;
-  }
-
+  /* mega menu panel — generic link styles first (lowest specificity) */
   header nav .nav-sections .default-content-wrapper > ul > li > ul a:any-link {
     color: var(--text-color);
+    text-decoration: none;
   }
 
   header nav .nav-sections .default-content-wrapper > ul > li > ul a:hover {
     text-decoration: underline;
   }
 
-  /* nav-drop chevron */
+  /* panel container — hidden by default */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -32px;
+    padding: 24px 32px;
+    background-color: #fff;
+    color: var(--text-color);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
+    white-space: initial;
+    z-index: 200;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0 40px;
+  }
+
+  /* L2 column */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 16px;
+    min-width: 160px;
+  }
+
+  /* L2 direct link (no <p> wrapper) */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > a:any-link {
+    font-size: 14px;
+    padding: 4px 0;
+  }
+
+  /* L2 header link (wrapped in <p> by AEM) */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > p {
+    margin: 0 0 6px;
+  }
+
+  /* L3 sub-list */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > ul > li {
+    padding: 4px 0;
+    font-size: 14px;
+  }
+
+  /* show panel — aria-expanded and hover add specificity, so must come after hide rule */
+  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul,
+  header nav .nav-sections .default-content-wrapper > ul > li:hover > ul {
+    display: flex;
+  }
+
+  /* L2 header link — highest specificity in this block, last */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul > li > p > a:any-link {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* nav-drop cursor */
   header nav .nav-sections .nav-drop {
     cursor: pointer;
   }

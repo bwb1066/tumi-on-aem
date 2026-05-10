@@ -109,6 +109,42 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 }
 
 /**
+ * Assigns nav-brand / nav-sections / nav-tools classes.
+ * Supports the standard 3-section boilerplate layout OR a single-section
+ * nav doc where all links are in one block.
+ */
+function assignNavClasses(nav) {
+  const sections = [...nav.children];
+
+  if (sections.length >= 3) {
+    // Standard boilerplate: section 0 = brand, 1 = sections, 2 = tools
+    sections[0].classList.add('nav-brand');
+    sections[1].classList.add('nav-sections');
+    sections[2].classList.add('nav-tools');
+    return;
+  }
+
+  // Single-section nav: classify each child by its content
+  sections.forEach((section) => {
+    if (section.querySelector('ul')) {
+      section.classList.add('nav-sections');
+    } else if (section.querySelector(':scope > p > a > picture, :scope > p > a > img')) {
+      section.classList.add('nav-brand');
+    } else {
+      section.classList.add('nav-tools');
+    }
+  });
+
+  // Ensure a brand element exists — inject a placeholder if not authored yet
+  if (!nav.querySelector('.nav-brand')) {
+    const brand = document.createElement('div');
+    brand.className = 'nav-brand';
+    brand.innerHTML = '<p><a href="/">TUMI</a></p>';
+    nav.querySelector('.nav-sections').before(brand);
+  }
+}
+
+/**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -127,17 +163,15 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  const classes = ['brand', 'sections', 'tools'];
-  classes.forEach((c, i) => {
-    const section = nav.children[i];
-    if (section) section.classList.add(`nav-${c}`);
-  });
+  assignNavClasses(nav);
 
   const navBrand = nav.querySelector('.nav-brand');
-  const brandLink = navBrand.querySelector('.button');
-  if (brandLink) {
-    brandLink.className = '';
-    brandLink.closest('.button-container').className = '';
+  if (navBrand) {
+    const brandLink = navBrand.querySelector('.button');
+    if (brandLink) {
+      brandLink.className = '';
+      brandLink.closest('.button-container').className = '';
+    }
   }
 
   const navSections = nav.querySelector('.nav-sections');
@@ -174,7 +208,9 @@ export default async function decorate(block) {
   if (utilNavFragment) {
     const utilNavWrapper = document.createElement('div');
     utilNavWrapper.className = 'util-nav-wrapper';
-    while (utilNavFragment.firstElementChild) utilNavWrapper.append(utilNavFragment.firstElementChild);
+    while (utilNavFragment.firstElementChild) {
+      utilNavWrapper.append(utilNavFragment.firstElementChild);
+    }
     block.append(utilNavWrapper);
   }
 
