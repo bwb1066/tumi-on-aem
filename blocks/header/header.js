@@ -174,6 +174,18 @@ export default async function decorate(block) {
     }
   }
 
+  // Flatten tools: extract all pictures into direct children of nav-tools
+  const navTools = nav.querySelector('.nav-tools');
+  if (navTools) {
+    const pictures = [...navTools.querySelectorAll('picture')];
+    navTools.textContent = '';
+    pictures.forEach((pic) => {
+      const item = document.createElement('div');
+      item.append(pic);
+      navTools.append(item);
+    });
+  }
+
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {

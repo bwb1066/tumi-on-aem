@@ -36,6 +36,7 @@ header .util-nav-wrapper {
   /* each column — override columns.css flex: 1 so space-between works */
   header .util-nav-wrapper .columns > div > div {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 6px;
     flex: 0 0 auto;
@@ -428,7 +429,25 @@ header nav .nav-tools {
   grid-area: tools;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
+}
+
+header nav .nav-tools > div {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+header nav .nav-tools picture {
+  display: flex;
+  align-items: center;
+}
+
+header nav .nav-tools img {
+  width: 22px;
+  height: auto;
+  display: block;
+  filter: invert(1);
 }
 
 header nav .nav-tools a:any-link {
