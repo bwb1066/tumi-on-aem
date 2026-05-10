@@ -1,5 +1,5 @@
 /* ============================================================
-   Util nav (fragment uses a columns block)
+   Util nav
    ============================================================ */
 header .util-nav-wrapper {
   display: none;
@@ -14,62 +14,42 @@ header .util-nav-wrapper {
     color: var(--text-color);
   }
 
-  header .util-nav-wrapper .section {
-    margin: 0;
-    padding: 0;
-  }
-
-  header .util-nav-wrapper .columns-wrapper {
-    max-width: 1264px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  /* row becomes the flex container */
-  header .util-nav-wrapper .columns > div {
+  header .util-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 0;
+    padding: 6px 16px;
   }
 
-  /* each column — override columns.css flex: 1 so space-between works */
-  header .util-nav-wrapper .columns > div > div {
+  header .util-nav-promo,
+  header .util-nav-store {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 6px;
-    flex: 0 0 auto;
+    gap: 8px;
+    white-space: nowrap;
   }
 
-  /* hide empty middle column */
-  header .util-nav-wrapper .columns > div > div:empty {
-    display: none;
-  }
-
-  /* all links dark, not blue */
-  header .util-nav-wrapper .columns a:any-link {
+  header .util-nav a:any-link {
     color: var(--text-color);
     text-decoration: none;
   }
 
-  header .util-nav-wrapper .columns a:hover {
+  header .util-nav a:hover {
     text-decoration: underline;
   }
 
-  /* "Shop Now" is the last link in the promo column — underline it */
-  header .util-nav-wrapper .columns > div > div:first-child a:last-child {
+  header .util-nav-promo a:last-child {
     text-decoration: underline;
   }
 
-  /* location icon */
-  header .util-nav-wrapper .columns picture {
+  header .util-nav-store picture {
     display: flex;
     align-items: center;
     flex-shrink: 0;
   }
 
-  header .util-nav-wrapper .columns picture img {
+  header .util-nav-store picture img {
     width: 14px;
     height: auto;
   }

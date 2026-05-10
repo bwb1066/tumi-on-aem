@@ -1,0 +1,54 @@
+main > .section:has(.grey-section-columns) {
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+main > .section:has(.grey-section-columns) > div {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+
+.grey-section-columns {
+  max-width: 1074px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.grey-section-columns > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  padding: 18px 0;
+}
+
+.grey-section-columns-item:any-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(27 28 30);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.grey-section-columns-item:hover span {
+  text-decoration: underline;
+}
+
+.grey-section-columns-item picture {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.grey-section-columns-item img {
+  width: 28px;
+  height: auto;
+  display: block;
+}

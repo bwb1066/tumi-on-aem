@@ -220,9 +220,41 @@ export default async function decorate(block) {
   if (utilNavFragment) {
     const utilNavWrapper = document.createElement('div');
     utilNavWrapper.className = 'util-nav-wrapper';
-    while (utilNavFragment.firstElementChild) {
-      utilNavWrapper.append(utilNavFragment.firstElementChild);
+
+    // Extract content from the columns block and rebuild as clean util-nav divs
+    const row = utilNavFragment.querySelector('.columns > div');
+    if (row) {
+      const cols = [...row.children];
+      const promoCol = cols[0];
+      const storeCol = cols[cols.length - 1];
+
+      const bar = document.createElement('div');
+      bar.className = 'util-nav';
+
+      if (promoCol) {
+        const promo = document.createElement('div');
+        promo.className = 'util-nav-promo';
+        promo.append(...promoCol.childNodes);
+        bar.append(promo);
+      }
+
+      if (storeCol && storeCol !== promoCol) {
+        const store = document.createElement('div');
+        store.className = 'util-nav-store';
+        const storePic = storeCol.querySelector('picture');
+        const storeLinks = [...storeCol.querySelectorAll('a')];
+        if (storePic) store.append(storePic);
+        storeLinks.forEach((a) => store.append(a));
+        bar.append(store);
+      }
+
+      utilNavWrapper.append(bar);
+    } else {
+      while (utilNavFragment.firstElementChild) {
+        utilNavWrapper.append(utilNavFragment.firstElementChild);
+      }
     }
+
     block.append(utilNavWrapper);
   }
 
