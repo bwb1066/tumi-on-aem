@@ -666,7 +666,7 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
   header nav .nav-sections .nav-promo-col-2 > li > ul {
     list-style: none;
     padding: 4px 0 0 14px;
-    margin: 6px 0 0 0;
+    margin: 6px 0 0;
     display: flex;
     flex-direction: column;
     border-left: 2px solid #d0d0d0;
@@ -995,6 +995,7 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
   }
 
   /* CTA lives inside wrapper — override the generic mega-cta width calc */
+  /* stylelint-disable-next-line no-descending-specificity */
   header nav .nav-sections .nav-sale-wrapper > .nav-mega-cta:any-link {
     width: auto;
     margin-top: 0;
@@ -1268,8 +1269,7 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(4, 210px);
-    column-gap: 20px;
-    row-gap: 32px;
+    gap: 32px 20px;
     align-items: start;
   }
 

@@ -214,7 +214,9 @@ export default async function decorate(block) {
             .replace(/'/g, '')
             .replace(/\s+/g, '-')
             .replace(/[^a-z0-9-]/g, '');
-          const fragOverrides = { luggage: 'luggage-promo', backpacks: 'backpacks-promo', men: 'mens-promo', women: 'womens-promo', services: 'services-promo' };
+          const fragOverrides = {
+            luggage: 'luggage-promo', backpacks: 'backpacks-promo', men: 'mens-promo', women: 'womens-promo', services: 'services-promo',
+          };
           const promoSlugs = new Set(['luggage', 'backpacks', 'bags', 'accessories', 'men', 'women', 'collections', 'services', 'sale']);
           // Section-based: each top-level sub-list item becomes its own column
           const sectionSlugs = new Set(['men', 'women']);
@@ -507,8 +509,7 @@ export default async function decorate(block) {
                 }
               }
               if (removeFn && removeFn(li)) { li.remove(); return; }
-              if (splitFn(li)) { mergeIconLink(li); col1.append(li); }
-              else col2.append(li);
+              if (splitFn(li)) { mergeIconLink(li); col1.append(li); } else col2.append(li);
             });
             const megaContent = document.createElement('div');
             megaContent.className = 'nav-mega-content nav-mega-promo';
