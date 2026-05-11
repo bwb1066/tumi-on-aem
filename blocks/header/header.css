@@ -361,6 +361,7 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
     left: 0;
     width: 100%;
     flex-flow: row wrap;
+    justify-content: center;
     align-items: flex-start;
     gap: 32px;
     padding: 40px 80px;
@@ -555,7 +556,8 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
   }
 
   /* CTA as direct child of promo panel — spans full row */
-  header nav .nav-sections .default-content-wrapper > ul > li > ul:has(.nav-mega-promo) > .nav-mega-cta:any-link {
+  header nav .nav-sections .default-content-wrapper > ul > li > ul:has(.nav-mega-promo) > .nav-mega-cta:any-link,
+  header nav .nav-sections .default-content-wrapper > ul > li > ul:has(.nav-promo-col) > .nav-mega-cta:any-link {
     flex-basis: 100%;
     width: auto;
     margin-top: 24px;
@@ -659,9 +661,40 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
     text-decoration: underline;
   }
 
+  /* Col 2 sub-items with left border (e.g. Men's/Women's Bags) */
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-2 > li > ul {
+    list-style: none;
+    padding: 4px 0 0 14px;
+    margin: 6px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid #d0d0d0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-2 > li > ul > li {
+    padding: 2px 0;
+    border: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-2 > li > ul > li > a:any-link {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-2 > li > ul > li > a:hover {
+    text-decoration: underline;
+  }
+
   /* Promo col 3 */
   header nav .nav-sections .nav-mega-promo {
-    flex: 1 1 0;
+    flex: 0 0 auto;
     align-self: flex-start;
     display: flex;
     flex-direction: column;
@@ -746,6 +779,567 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
   /* nav-drop cursor */
   header nav .nav-sections .nav-drop {
     cursor: pointer;
+  }
+
+  /* ---- Accessories: 3rd col (Men's/Women's sub-lists) ---- */
+  header nav .nav-sections .nav-promo-col-3 {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 20px;
+    min-width: 160px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-3 > li {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    padding: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-3 > li > p > a:any-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-3 > li > ul {
+    list-style: none;
+    padding: 4px 0 0 14px;
+    margin: 4px 0 0;
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid #d0d0d0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-3 > li > ul > li {
+    padding: 2px 0;
+    border: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-3 > li > ul > li > a:any-link {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-promo-col-3 > li > ul > li > a:hover {
+    text-decoration: underline;
+  }
+
+  /* ---- Section-based columns (Men, Women) ---- */
+  header nav .nav-sections .nav-section-col {
+    min-width: 200px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-col > li {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    padding: 0;
+    gap: 0;
+    min-width: 0;
+  }
+
+  /* Section heading (plain text p, no link) */
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-col > li > p {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-color);
+    margin: 0 0 12px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-col > li > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-col > li > ul > li {
+    padding: 5px 0;
+    border: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-col > li > ul > li > a:any-link {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-col > li > ul > li > a:hover {
+    text-decoration: underline;
+  }
+
+  /* Section col3: collection cards + heading */
+  header nav .nav-sections .nav-section-cards {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header nav .nav-sections .nav-section-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-color);
+    margin: 0 0 16px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards > ul > li {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    border: none;
+    background: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards .cards-card-image picture img {
+    width: 120px;
+    height: 90px;
+    border-radius: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards .cards-card-body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards .cards-card-body p {
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards .cards-card-body > p > a:any-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards .cards-card-body > p > a:hover {
+    text-decoration: underline;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-section-cards .cards .cards-card-body p + p {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  /* ---- Sale mega menu ---- */
+  header nav .nav-sections .nav-sale-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  header nav .nav-sections .nav-sale-cols {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    align-items: flex-start;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul:has(.nav-sale-wrapper) > li {
+    display: none;
+  }
+
+  /* CTA lives inside wrapper — override the generic mega-cta width calc */
+  header nav .nav-sections .nav-sale-wrapper > .nav-mega-cta:any-link {
+    width: auto;
+    margin-top: 0;
+  }
+
+  header nav .nav-sections .nav-sale-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 160px;
+  }
+
+  header nav .nav-sections .nav-sale-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-color);
+    margin: 0 0 16px;
+  }
+
+  header nav .nav-sections .nav-sale-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-sale-list > li {
+    padding: 6px 0;
+    border: none;
+  }
+
+  /* Icon + link items (Shop By Category) */
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-sale-list > li > p:has(picture) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-sale-list > li > p:has(picture) picture img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-sale-list > li > p:has(picture) > a:any-link {
+    font-size: 14px;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-sale-list > li > p:has(picture) > a:hover {
+    text-decoration: underline;
+  }
+
+  /* Plain links (Shop By Style, Shop By Savings) */
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-sale-list > li > a:any-link {
+    font-size: 13px;
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-sale-list > li > a:hover {
+    text-decoration: underline;
+  }
+
+  /* ---- Services mega menu ---- */
+  header nav .nav-sections .nav-services-wrapper {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul:has(.nav-services-wrapper) > li {
+    display: none;
+  }
+
+  header nav .nav-sections .nav-services-col {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    align-items: flex-start;
+    min-width: 200px;
+  }
+
+  header nav .nav-sections .nav-services-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-color);
+    margin: 0 0 20px;
+  }
+
+  header nav .nav-sections .nav-services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-services-list > li {
+    border: none;
+    padding: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-services-list > li > p:has(picture) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-services-list > li > p:has(picture) picture img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-services-list > li > p:has(picture) > a:any-link {
+    font-size: 14px;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-services-list > li > p:has(picture) > a:hover {
+    text-decoration: underline;
+  }
+
+  /* Store column */
+  header nav .nav-sections .nav-services-store {
+    flex: 0 0 240px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-services-store picture img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-services-store p {
+    font-size: 13px;
+    color: var(--text-color);
+    margin: 0 0 4px;
+    line-height: 1.5;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-services-store p a:any-link {
+    color: var(--text-color);
+    text-decoration: underline;
+  }
+
+  header nav .nav-sections .nav-services-btn-primary:any-link {
+    display: block;
+    background: #131313;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 16px;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+    box-sizing: border-box;
+    transition: background 0.2s;
+  }
+
+  header nav .nav-sections .nav-services-btn-primary:hover {
+    background: #333;
+  }
+
+  header nav .nav-sections .nav-services-btn-secondary:any-link {
+    display: block;
+    border: 1px solid #131313;
+    color: #131313;
+    text-decoration: none;
+    padding: 11px 16px;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 8px;
+    box-sizing: border-box;
+    transition: background 0.2s;
+  }
+
+  header nav .nav-sections .nav-services-btn-secondary:hover {
+    background: rgb(0 0 0 / 5%);
+  }
+
+  /* ---- Collections: tabbed mega menu ---- */
+  header nav .nav-sections .nav-collections-wrapper {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header nav .nav-sections .nav-collections-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 32px;
+    width: calc(4 * 210px + 3 * 20px);
+  }
+
+  header nav .nav-sections .nav-collections-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    padding: 12px 0;
+    font-size: 13px;
+    font-family: var(--body-font-family);
+    cursor: pointer;
+    color: #777;
+    white-space: nowrap;
+    transition: color 0.15s;
+    text-align: center;
+  }
+
+  header nav .nav-sections .nav-collections-tab:hover {
+    color: var(--text-color);
+  }
+
+  header nav .nav-sections .nav-collections-tab.is-active {
+    color: var(--text-color);
+    border-bottom-color: var(--text-color);
+    font-weight: 500;
+  }
+
+  header nav .nav-sections .nav-collections-panels {
+    display: block;
+  }
+
+  header nav .nav-sections .nav-collections-cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 210px);
+    column-gap: 20px;
+    row-gap: 32px;
+    align-items: start;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-collections-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-collections-card picture {
+    display: block;
+    line-height: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-collections-card picture img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  header nav .nav-sections .nav-collections-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  header nav .nav-sections .nav-collections-card-title {
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-collections-card-title a:any-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .nav-collections-card-title a:hover {
+    text-decoration: underline;
+  }
+
+  header nav .nav-sections .nav-collections-card-desc {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Hide raw nav list items when collections wrapper takes over */
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul:has(.nav-collections-wrapper) > li {
+    display: none;
+  }
+
+  /* CTA below collections wrapper — same width as card grid, centered */
+  header nav .nav-sections .default-content-wrapper > ul > li > ul:has(.nav-collections-wrapper) > .nav-mega-cta:any-link {
+    flex-basis: auto;
+    width: calc(4 * 210px + 3 * 20px);
+    margin-top: 24px;
+    text-align: left;
   }
 }
 

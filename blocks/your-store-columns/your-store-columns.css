@@ -23,6 +23,8 @@ main > .section:has(.your-store-columns) > div {
   flex: 0 0 30%;
   overflow: hidden;
   line-height: 0;
+  padding: 72px;
+  box-sizing: border-box;
 }
 
 .ysc-image picture {

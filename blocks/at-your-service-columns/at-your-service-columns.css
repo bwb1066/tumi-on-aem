@@ -13,6 +13,8 @@ main > .section:has(.at-your-service-columns) > div {
   flex: 0 0 52%;
   overflow: hidden;
   line-height: 0;
+  padding: 72px;
+  box-sizing: border-box;
 }
 
 .aysc-image picture {

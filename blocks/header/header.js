@@ -53,6 +53,15 @@ function focusNavSection() {
   document.activeElement.addEventListener('keydown', openOnKeydown);
 }
 
+function mergeIconLink(li) {
+  const picP = li.querySelector(':scope > p:has(picture)');
+  const linkP = [...li.querySelectorAll(':scope > p')]
+    .find((p) => p.querySelector('a') && !p.querySelector('picture'));
+  if (!picP || !linkP) return;
+  picP.append(...linkP.childNodes);
+  linkP.remove();
+}
+
 /**
  * Toggles all nav sections
  * @param {Element} sections The container element
@@ -205,61 +214,306 @@ export default async function decorate(block) {
             .replace(/'/g, '')
             .replace(/\s+/g, '-')
             .replace(/[^a-z0-9-]/g, '');
-          const fragOverrides = { luggage: 'luggage-promo' };
-          const promoSlugs = new Set(['luggage']);
+          const fragOverrides = { luggage: 'luggage-promo', backpacks: 'backpacks-promo', men: 'mens-promo', women: 'womens-promo', services: 'services-promo' };
+          const promoSlugs = new Set(['luggage', 'backpacks', 'bags', 'accessories', 'men', 'women', 'collections', 'services', 'sale']);
+          // Section-based: each top-level sub-list item becomes its own column
+          const sectionSlugs = new Set(['men', 'women']);
+          // Per-slug: col1 predicate (true → col1, false → col2)
+          const promoSplitFns = {
+            luggage: (li) => !!li.querySelector(':scope > ul'),
+            backpacks: (li) => !!li.querySelector(':scope picture'),
+            bags: (li) => !!li.querySelector(':scope picture'),
+          };
+          // Per-slug: remove item entirely (won't go in any col)
+          const promoRemoveFns = {
+            bags: (li) => !li.querySelector(':scope picture') && !li.querySelector(':scope > ul'),
+          };
+          const ctaLabels = {
+            new: 'Shop New Arrivals',
+            gifts: 'Shop the Gift Guide',
+            luggage: 'Shop all Luggage',
+            backpacks: 'Shop all Backpacks',
+            bags: 'Shop all Bags',
+            accessories: 'Shop all Accessories',
+            men: "Shop All Men's",
+            women: "Shop All Women's",
+            collections: 'Shop All Collections',
+          };
           const fragSlug = fragOverrides[slug] || slug;
           loadFragment(`/fragments/nav-${fragSlug}`).then((frag) => {
-            if (!frag) return;
             const panel = navSection.querySelector(':scope > ul');
             if (!panel) return;
-            const megaContent = document.createElement('div');
-            megaContent.className = promoSlugs.has(slug)
-              ? 'nav-mega-content nav-mega-promo'
-              : 'nav-mega-content';
-            const cards = frag.querySelector('.cards');
-            if (cards) megaContent.append(cards);
+            const cards = frag ? frag.querySelector('.cards') : null;
             const cta = document.createElement('a');
             cta.href = link.href;
             cta.className = 'nav-mega-cta';
-            const ctaLabels = { new: 'Shop New Arrivals', gifts: 'Shop the Gift Guide', luggage: 'Shop all Luggage' };
             cta.textContent = `${ctaLabels[slug] || `Shop ${link.textContent.trim()}`} ›`;
-            if (promoSlugs.has(slug)) {
-              // Collect promo card titles to identify nav items they replace
-              const promoTitles = new Set();
-              if (cards) {
-                cards.querySelectorAll('.cards-card-body p:first-child').forEach((p) => {
-                  const t = p.textContent.trim().toLowerCase();
-                  if (t) promoTitles.add(t);
+
+            if (!promoSlugs.has(slug)) {
+              const megaContent = document.createElement('div');
+              megaContent.className = 'nav-mega-content';
+              if (cards) megaContent.append(cards);
+              megaContent.append(cta);
+              panel.append(megaContent);
+              return;
+            }
+
+            // ---- Section-based layout (Men, Women) ----
+            if (sectionSlugs.has(slug)) {
+              const sectionItems = [...panel.querySelectorAll(':scope > li')]
+                .filter((li) => li.querySelector(':scope > ul'));
+              [...panel.querySelectorAll(':scope > li')].forEach((li) => {
+                const a = li.querySelector(':scope > p > a, :scope > a');
+                if (a?.href === link.href) li.remove();
+              });
+              const makeSection = (li, colClass) => {
+                const col = document.createElement('div');
+                col.className = `nav-promo-col ${colClass} nav-section-col`;
+                if (li) col.append(li);
+                return col;
+              };
+              const col3 = document.createElement('div');
+              col3.className = 'nav-mega-content nav-section-cards';
+              const col3Head = sectionItems[2]?.querySelector(':scope > p');
+              if (col3Head?.textContent.trim()) {
+                const h = document.createElement('p');
+                h.className = 'nav-section-heading';
+                h.textContent = col3Head.textContent.trim();
+                col3.append(h);
+              }
+              if (cards) col3.append(cards);
+              panel.append(
+                makeSection(sectionItems[0], 'nav-promo-col-1'),
+                makeSection(sectionItems[1], 'nav-promo-col-2'),
+                col3,
+                cta,
+              );
+              return;
+            }
+
+            // ---- Sale: columns with icon items (category) + plain links (style/savings) ----
+            if (slug === 'sale') {
+              const saleItems = [...panel.querySelectorAll(':scope > li')].filter((li) => {
+                const a = li.querySelector(':scope > p > a, :scope > a');
+                return !a || a.href !== link.href;
+              });
+              const colRow = document.createElement('div');
+              colRow.className = 'nav-sale-cols';
+              saleItems.forEach((li) => {
+                const headP = li.querySelector(':scope > p');
+                const subUl = li.querySelector(':scope > ul');
+                if (!headP?.textContent.trim() && !subUl) return;
+                const col = document.createElement('div');
+                col.className = 'nav-sale-col';
+                if (headP && !headP.querySelector('a')) {
+                  const h = document.createElement('p');
+                  h.className = 'nav-sale-heading';
+                  h.textContent = headP.textContent.trim();
+                  col.append(h);
+                }
+                if (subUl) {
+                  const list = document.createElement('ul');
+                  list.className = 'nav-sale-list';
+                  [...subUl.querySelectorAll(':scope > li')].forEach((item) => {
+                    mergeIconLink(item);
+                    list.append(item);
+                  });
+                  col.append(list);
+                }
+                colRow.append(col);
+              });
+              const wrapper = document.createElement('div');
+              wrapper.className = 'nav-sale-wrapper';
+              wrapper.append(colRow, cta);
+              panel.append(wrapper);
+              return;
+            }
+
+            // ---- Services: two icon cols + store col from fragment ----
+            if (slug === 'services') {
+              const sectionItems = [...panel.querySelectorAll(':scope > li')].filter((li) => {
+                const a = li.querySelector(':scope > p > a, :scope > a');
+                return !a || a.href !== link.href;
+              });
+              const serviceCols = sectionItems.map((li) => {
+                const col = document.createElement('div');
+                col.className = 'nav-services-col';
+                const headP = li.querySelector(':scope > p');
+                if (headP?.textContent.trim()) {
+                  const h = document.createElement('p');
+                  h.className = 'nav-services-heading';
+                  h.textContent = headP.textContent.trim();
+                  col.append(h);
+                }
+                const subUl = li.querySelector(':scope > ul');
+                if (subUl) {
+                  const list = document.createElement('ul');
+                  list.className = 'nav-services-list';
+                  [...subUl.querySelectorAll(':scope > li')].forEach((item) => {
+                    mergeIconLink(item);
+                    list.append(item);
+                  });
+                  col.append(list);
+                }
+                return col;
+              });
+              const storeCol = document.createElement('div');
+              storeCol.className = 'nav-services-col nav-services-store';
+              if (frag) {
+                const h2 = frag.querySelector('h2');
+                if (h2) {
+                  const h = document.createElement('p');
+                  h.className = 'nav-services-heading';
+                  h.textContent = h2.textContent.trim();
+                  storeCol.append(h);
+                }
+                const pic = frag.querySelector('picture');
+                if (pic) storeCol.append(pic);
+                [...frag.querySelectorAll('p')].forEach((p) => {
+                  if (p.querySelector('picture')) return;
+                  const links = [...p.querySelectorAll('a')];
+                  if (links.length >= 2) {
+                    links.forEach((a, i) => {
+                      const btn = document.createElement('a');
+                      btn.href = a.href;
+                      btn.textContent = a.textContent;
+                      btn.className = i === 0 ? 'nav-services-btn-primary' : 'nav-services-btn-secondary';
+                      storeCol.append(btn);
+                    });
+                  } else {
+                    storeCol.append(p.cloneNode(true));
+                  }
                 });
               }
-              // Col 1 = items with sub-categories (ul); Col 2 = leaf icon-items
+              const wrapper = document.createElement('div');
+              wrapper.className = 'nav-services-wrapper';
+              [...serviceCols, storeCol].forEach((col) => wrapper.append(col));
+              panel.append(wrapper);
+              return;
+            }
+
+            // ---- Collections: tabbed layout ----
+            if (slug === 'collections') {
+              const tabsBlock = frag ? frag.querySelector('.tabs') : null;
+              if (!tabsBlock) return;
+              const tabBar = document.createElement('div');
+              tabBar.className = 'nav-collections-tabs';
+              const panelContainer = document.createElement('div');
+              panelContainer.className = 'nav-collections-panels';
+              [...tabsBlock.children].forEach((row, idx) => {
+                const cols = [...row.children];
+                const labelDiv = cols[0];
+                const contentDiv = cols[1];
+                if (!labelDiv || !contentDiv) return;
+                const btn = document.createElement('button');
+                btn.textContent = labelDiv.textContent.trim();
+                btn.className = 'nav-collections-tab';
+                if (idx === 0) btn.classList.add('is-active');
+                tabBar.append(btn);
+                const tabPanel = document.createElement('div');
+                tabPanel.className = 'nav-collections-panel';
+                if (idx !== 0) tabPanel.hidden = true;
+                const table = contentDiv.querySelector('table');
+                if (table) {
+                  const cardList = document.createElement('ul');
+                  cardList.className = 'nav-collections-cards';
+                  [...table.querySelectorAll('tr')].slice(1).forEach((tr) => {
+                    const tds = [...tr.querySelectorAll('td')];
+                    if (tds.length < 2) return;
+                    const card = document.createElement('li');
+                    card.className = 'nav-collections-card';
+                    const pic = tds[0].querySelector('picture');
+                    if (pic) card.append(pic);
+                    const body = document.createElement('div');
+                    body.className = 'nav-collections-card-body';
+                    const titleA = tds[1].querySelector('a');
+                    if (titleA) {
+                      const tp = document.createElement('p');
+                      tp.className = 'nav-collections-card-title';
+                      tp.append(titleA.cloneNode(true));
+                      body.append(tp);
+                    }
+                    const descA = tds[1].querySelector('ul li a');
+                    if (descA) {
+                      const dp = document.createElement('p');
+                      dp.className = 'nav-collections-card-desc';
+                      dp.textContent = descA.textContent;
+                      body.append(dp);
+                    }
+                    card.append(body);
+                    cardList.append(card);
+                  });
+                  tabPanel.append(cardList);
+                }
+                panelContainer.append(tabPanel);
+                btn.addEventListener('click', () => {
+                  [...tabBar.querySelectorAll('.nav-collections-tab')].forEach((b) => b.classList.remove('is-active'));
+                  [...panelContainer.querySelectorAll('.nav-collections-panel')].forEach((p) => { p.hidden = true; });
+                  btn.classList.add('is-active');
+                  tabPanel.hidden = false;
+                });
+              });
+              const wrapper = document.createElement('div');
+              wrapper.className = 'nav-collections-wrapper';
+              wrapper.append(tabBar, panelContainer);
+              panel.append(wrapper, cta);
+              return;
+            }
+
+            // ---- Accessories: two icon cols + one sublist col ----
+            if (slug === 'accessories') {
+              const iconItems = [];
+              const sublistItems = [];
+              [...panel.querySelectorAll(':scope > li')].forEach((li) => {
+                const a = li.querySelector(':scope > p > a, :scope > a');
+                if (a?.href === link.href) { li.remove(); return; }
+                if (li.querySelector(':scope picture')) iconItems.push(li);
+                else if (li.querySelector(':scope > ul')) sublistItems.push(li);
+                else li.remove();
+              });
               const col1 = document.createElement('div');
               col1.className = 'nav-promo-col nav-promo-col-1';
               const col2 = document.createElement('div');
               col2.className = 'nav-promo-col nav-promo-col-2';
-              [...panel.querySelectorAll(':scope > li')].forEach((li) => {
-                const liLink = li.querySelector(':scope > p > a, :scope > a');
-                if (liLink) {
-                  const liText = liLink.textContent.trim().toLowerCase();
-                  if (promoTitles.has(liText) || liLink.href === link.href) {
-                    li.remove();
-                    return;
-                  }
-                }
-                if (li.querySelector(':scope > ul')) {
-                  col1.append(li);
-                } else {
-                  col2.append(li);
-                }
-              });
-              panel.append(col1);
-              panel.append(col2);
-              panel.append(megaContent);
-              panel.append(cta);
-            } else {
-              megaContent.append(cta);
-              panel.append(megaContent);
+              const col3 = document.createElement('div');
+              col3.className = 'nav-promo-col nav-promo-col-3';
+              iconItems.slice(0, 8).forEach((li) => { mergeIconLink(li); col1.append(li); });
+              iconItems.slice(8).forEach((li) => { mergeIconLink(li); col2.append(li); });
+              sublistItems.forEach((li) => col3.append(li));
+              panel.append(col1, col2, col3, cta);
+              return;
             }
+
+            // ---- Standard promo (Luggage, Backpacks, Bags) ----
+            const promoTitles = new Set();
+            if (cards) {
+              cards.querySelectorAll('.cards-card-body p:first-child').forEach((p) => {
+                const t = p.textContent.trim().toLowerCase();
+                if (t) promoTitles.add(t);
+              });
+            }
+            const splitFn = promoSplitFns[slug] || ((li) => !!li.querySelector(':scope > ul'));
+            const removeFn = promoRemoveFns[slug];
+            const col1 = document.createElement('div');
+            col1.className = 'nav-promo-col nav-promo-col-1';
+            const col2 = document.createElement('div');
+            col2.className = 'nav-promo-col nav-promo-col-2';
+            [...panel.querySelectorAll(':scope > li')].forEach((li) => {
+              const liLink = li.querySelector(':scope > p > a, :scope > a');
+              if (liLink) {
+                const liText = liLink.textContent.trim().toLowerCase();
+                if (promoTitles.has(liText) || liLink.href === link.href) {
+                  li.remove(); return;
+                }
+              }
+              if (removeFn && removeFn(li)) { li.remove(); return; }
+              if (splitFn(li)) { mergeIconLink(li); col1.append(li); }
+              else col2.append(li);
+            });
+            const megaContent = document.createElement('div');
+            megaContent.className = 'nav-mega-content nav-mega-promo';
+            if (cards) megaContent.append(cards);
+            panel.append(col1, col2, megaContent, cta);
           });
         }
       }
