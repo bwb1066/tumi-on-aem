@@ -1,0 +1,73 @@
+main > .section:has(.fathers-day-hero) {
+  margin: 0;
+}
+
+main > .section:has(.fathers-day-hero) > div {
+  max-width: none;
+  padding: 0;
+}
+
+.fathers-day-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0;
+}
+
+.fdh-image {
+  line-height: 0;
+}
+
+.fdh-image picture {
+  display: block;
+}
+
+.fdh-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.fdh-content {
+  position: absolute;
+  top: 50%;
+  right: 6%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: #fff;
+  width: 32%;
+  max-width: 420px;
+  z-index: 2;
+}
+
+.fdh-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+  color: #fff;
+}
+
+.fdh-content h2 {
+  font-size: clamp(28px, 3.5vw, 52px);
+  font-weight: 300;
+  color: #fff;
+  margin: 0 0 24px;
+  line-height: 1.1;
+}
+
+.fdh-cta:any-link {
+  display: block;
+  border: 1px solid rgb(255 255 255 / 80%);
+  color: #fff;
+  text-decoration: none;
+  padding: 13px 24px;
+  font-size: 14px;
+  text-align: center;
+  transition: background 0.2s;
+  box-sizing: border-box;
+}
+
+.fdh-cta:hover {
+  background: rgb(255 255 255 / 15%);
+}

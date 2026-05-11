@@ -1,0 +1,136 @@
+main > .section:has(.at-your-service-columns) > div {
+  max-width: none;
+  padding: 0;
+}
+
+.at-your-service-columns {
+  display: flex;
+  min-height: 560px;
+  padding: 0 10%;
+}
+
+.aysc-image {
+  flex: 0 0 52%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.aysc-image picture {
+  display: block;
+  height: 100%;
+}
+
+.aysc-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.aysc-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 0 60px 48px;
+  box-sizing: border-box;
+}
+
+.aysc-content h2 {
+  font-size: clamp(24px, 2.8vw, 38px);
+  font-weight: 300;
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.aysc-desc {
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+.aysc-service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+}
+
+.aysc-service-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.aysc-service-item:first-child {
+  border-top: 1px solid #e8e8e8;
+}
+
+.aysc-service-icon {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.aysc-service-icon picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aysc-service-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+.aysc-service-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.aysc-service-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.aysc-service-desc {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.4;
+}
+
+.aysc-service-arrow {
+  font-size: 16px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.aysc-cta:any-link {
+  display: inline-block;
+  border: 1px solid #131313;
+  color: #131313;
+  text-decoration: none;
+  padding: 13px 32px;
+  font-size: 14px;
+  text-align: center;
+  box-sizing: border-box;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+
+.aysc-cta:hover {
+  background: rgb(0 0 0 / 5%);
+}

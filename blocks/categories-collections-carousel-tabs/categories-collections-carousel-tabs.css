@@ -1,0 +1,169 @@
+/* Remove section max-width so the carousel goes full bleed */
+main > .section:has(.categories-collections-carousel-tabs) > div {
+  max-width: none;
+  padding: 0;
+}
+
+.categories-collections-carousel-tabs {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ---- Tab bar ---- */
+.cct-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #d0d0d0;
+  margin-bottom: 0;
+}
+
+.cct-tab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  padding: 12px 28px;
+  cursor: pointer;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  color: #aaa;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.cct-tab.active {
+  color: var(--text-color);
+  font-weight: 700;
+  border-bottom-color: var(--text-color);
+}
+
+/* ---- Panels ---- */
+.cct-panel {
+  display: none;
+}
+
+.cct-panel.active {
+  display: block;
+}
+
+/* ---- Carousel wrapper ---- */
+.cct-carousel-wrapper {
+  position: relative;
+  padding-top: 24px;
+}
+
+/* ---- Carousel track ---- */
+.cct-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+/* ---- Cards ---- */
+.cct-card {
+  flex: 0 0 calc(75%);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (width >= 600px) {
+  .cct-card {
+    flex: 0 0 calc(45%);
+  }
+}
+
+@media (width >= 900px) {
+  .cct-card {
+    flex: 0 0 calc((100% - 3 * 16px) / 4);
+  }
+}
+
+.cct-card-image {
+  line-height: 0;
+  overflow: hidden;
+}
+
+.cct-card-image picture {
+  display: block;
+}
+
+.cct-card-image img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+}
+
+.cct-card-label {
+  padding: 12px 0 0;
+}
+
+.cct-card-label a:any-link {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cct-card-label a:hover {
+  text-decoration: underline;
+}
+
+.cct-card-desc {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+/* ---- Arrow buttons ---- */
+.cct-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: #131313;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 0;
+}
+
+.cct-arrow-prev {
+  left: -24px;
+}
+
+.cct-arrow-next {
+  right: -24px;
+}
+
+.cct-arrow[hidden] {
+  display: none;
+}
+
+/* ---- CTA (View all Collections) ---- */
+.cct-cta:any-link {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-color);
+  text-decoration: underline;
+  padding: 24px 0 0;
+}
+
+.cct-cta:hover {
+  color: #555;
+}

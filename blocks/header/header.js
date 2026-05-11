@@ -197,6 +197,72 @@ export default async function decorate(block) {
           navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         }
       });
+
+      if (navSection.classList.contains('nav-drop')) {
+        const link = navSection.querySelector(':scope > a, :scope > p > a');
+        if (link) {
+          const slug = link.textContent.trim().toLowerCase()
+            .replace(/'/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9-]/g, '');
+          const fragOverrides = { luggage: 'luggage-promo' };
+          const promoSlugs = new Set(['luggage']);
+          const fragSlug = fragOverrides[slug] || slug;
+          loadFragment(`/fragments/nav-${fragSlug}`).then((frag) => {
+            if (!frag) return;
+            const panel = navSection.querySelector(':scope > ul');
+            if (!panel) return;
+            const megaContent = document.createElement('div');
+            megaContent.className = promoSlugs.has(slug)
+              ? 'nav-mega-content nav-mega-promo'
+              : 'nav-mega-content';
+            const cards = frag.querySelector('.cards');
+            if (cards) megaContent.append(cards);
+            const cta = document.createElement('a');
+            cta.href = link.href;
+            cta.className = 'nav-mega-cta';
+            const ctaLabels = { new: 'Shop New Arrivals', gifts: 'Shop the Gift Guide', luggage: 'Shop all Luggage' };
+            cta.textContent = `${ctaLabels[slug] || `Shop ${link.textContent.trim()}`} ›`;
+            if (promoSlugs.has(slug)) {
+              // Collect promo card titles to identify nav items they replace
+              const promoTitles = new Set();
+              if (cards) {
+                cards.querySelectorAll('.cards-card-body p:first-child').forEach((p) => {
+                  const t = p.textContent.trim().toLowerCase();
+                  if (t) promoTitles.add(t);
+                });
+              }
+              // Col 1 = items with sub-categories (ul); Col 2 = leaf icon-items
+              const col1 = document.createElement('div');
+              col1.className = 'nav-promo-col nav-promo-col-1';
+              const col2 = document.createElement('div');
+              col2.className = 'nav-promo-col nav-promo-col-2';
+              [...panel.querySelectorAll(':scope > li')].forEach((li) => {
+                const liLink = li.querySelector(':scope > p > a, :scope > a');
+                if (liLink) {
+                  const liText = liLink.textContent.trim().toLowerCase();
+                  if (promoTitles.has(liText) || liLink.href === link.href) {
+                    li.remove();
+                    return;
+                  }
+                }
+                if (li.querySelector(':scope > ul')) {
+                  col1.append(li);
+                } else {
+                  col2.append(li);
+                }
+              });
+              panel.append(col1);
+              panel.append(col2);
+              panel.append(megaContent);
+              panel.append(cta);
+            } else {
+              megaContent.append(cta);
+              panel.append(megaContent);
+            }
+          });
+        }
+      }
     });
   }
 

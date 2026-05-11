@@ -16,6 +16,7 @@ main > .section:has(.grey-section-columns) > div {
   padding: 0 32px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .grey-section-columns > div {
   display: flex;
   align-items: center;

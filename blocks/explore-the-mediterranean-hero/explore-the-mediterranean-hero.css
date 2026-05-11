@@ -1,0 +1,70 @@
+main > .section:has(.explore-the-mediterranean-hero) {
+  margin: 0;
+}
+
+main > .section:has(.explore-the-mediterranean-hero) > div {
+  max-width: none;
+  padding: 0;
+}
+
+.explore-the-mediterranean-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.etm-image {
+  line-height: 0;
+}
+
+.etm-image picture {
+  display: block;
+}
+
+.etm-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.etm-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  width: 44%;
+  max-width: 600px;
+  z-index: 2;
+}
+
+.etm-content h2 {
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 300;
+  color: #fff;
+  margin: 0 0 16px;
+  line-height: 1.15;
+}
+
+.etm-desc {
+  font-size: 15px;
+  color: rgb(255 255 255 / 92%);
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+.etm-cta:any-link {
+  display: block;
+  border: 1px solid rgb(255 255 255 / 80%);
+  color: #fff;
+  text-decoration: none;
+  padding: 13px 24px;
+  font-size: 14px;
+  text-align: center;
+  transition: background 0.2s;
+  box-sizing: border-box;
+}
+
+.etm-cta:hover {
+  background: rgb(255 255 255 / 15%);
+}

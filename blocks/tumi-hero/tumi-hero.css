@@ -1,0 +1,125 @@
+main > .section:has(.tumi-hero) {
+  margin: 0;
+}
+
+main > .section:has(.tumi-hero) > div {
+  max-width: none;
+  padding: 0;
+}
+
+.tumi-hero {
+  position: relative;
+}
+
+/* ---- Track & Slides ---- */
+.th-track {
+  position: relative;
+}
+
+.th-slide {
+  display: none;
+  flex-direction: column;
+}
+
+.th-slide-active {
+  display: flex;
+}
+
+/* ---- Image ---- */
+.th-image {
+  line-height: 0;
+}
+
+.th-image picture {
+  display: block;
+}
+
+.th-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---- Dark panel ---- */
+.th-panel {
+  background: #1c1c1c;
+  padding: 48px 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.th-panel-inner {
+  max-width: 520px;
+  text-align: center;
+}
+
+.th-panel h2 {
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 300;
+  color: #fff;
+  margin: 0 0 16px;
+  line-height: 1.15;
+}
+
+.th-desc {
+  font-size: 14px;
+  color: rgb(255 255 255 / 75%);
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+
+.th-cta:any-link {
+  display: inline-block;
+  border: 1px solid rgb(255 255 255 / 60%);
+  color: #fff;
+  text-decoration: none;
+  padding: 13px 40px;
+  font-size: 14px;
+  text-align: center;
+  transition: background 0.2s;
+  box-sizing: border-box;
+}
+
+.th-cta:hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+/* ---- Arrows ---- */
+.th-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgb(255 255 255 / 60%);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.th-arrow svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.th-arrow:hover {
+  color: #fff;
+}
+
+.th-arrow-prev {
+  left: 24px;
+}
+
+.th-arrow-next {
+  right: 24px;
+}
+
+.th-arrow[hidden] {
+  display: none;
+}
