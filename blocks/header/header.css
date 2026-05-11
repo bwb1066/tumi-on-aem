@@ -135,6 +135,16 @@ header nav a:hover {
   text-decoration: none;
 }
 
+header nav a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+header nav button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 /* ============================================================
    Hamburger
    ============================================================ */
@@ -351,6 +361,11 @@ header nav[aria-expanded='true'] .nav-sections ul > li {
 
   header nav .nav-sections .default-content-wrapper > ul > li > ul a:hover {
     text-decoration: underline;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > ul a:focus-visible {
+    outline: 2px solid var(--text-color);
+    outline-offset: 2px;
   }
 
   /* panel — full width, anchored to nav-wrapper via position: absolute */

@@ -89,7 +89,7 @@ main > .section:has(.best-of-sale-carousel) > div {
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #888;
+  color: #767676;
   text-decoration: none;
 }
 
@@ -112,7 +112,7 @@ main > .section:has(.best-of-sale-carousel) > div {
 }
 
 .bosc-card-price s {
-  color: #aaa;
+  color: #767676;
   text-decoration: line-through;
 }
 
@@ -149,4 +149,9 @@ main > .section:has(.best-of-sale-carousel) > div {
 
 .bosc-arrow[hidden] {
   display: none;
+}
+
+.bosc-arrow:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }

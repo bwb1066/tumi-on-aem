@@ -28,7 +28,7 @@ main > .section:has(.categories-collections-carousel-tabs) > div {
   font-family: var(--body-font-family);
   font-size: 15px;
   font-weight: 400;
-  color: #aaa;
+  color: #767676;
   transition: color 0.2s;
   white-space: nowrap;
 }
@@ -40,12 +40,8 @@ main > .section:has(.categories-collections-carousel-tabs) > div {
 }
 
 /* ---- Panels ---- */
-.cct-panel {
+.cct-panel[hidden] {
   display: none;
-}
-
-.cct-panel.active {
-  display: block;
 }
 
 /* ---- Carousel wrapper ---- */
@@ -151,6 +147,16 @@ main > .section:has(.categories-collections-carousel-tabs) > div {
 
 .cct-arrow[hidden] {
   display: none;
+}
+
+.cct-tab:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: -2px;
+}
+
+.cct-arrow:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 /* ---- CTA (View all Collections) ---- */

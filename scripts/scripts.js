@@ -133,8 +133,17 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+
+  // skip link for keyboard navigation
+  const skip = document.createElement('a');
+  skip.href = '#main-content';
+  skip.className = 'skip-link';
+  skip.textContent = 'Skip to main content';
+  doc.body.prepend(skip);
+
   const main = doc.querySelector('main');
   if (main) {
+    if (!main.id) main.id = 'main-content';
     decorateMain(main);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);

@@ -3,6 +3,8 @@ export default function decorate(block) {
 
   const tabBar = document.createElement('div');
   tabBar.className = 'cct-tabs';
+  tabBar.setAttribute('role', 'tablist');
+  tabBar.setAttribute('aria-label', 'Product categories');
 
   const panelsEl = document.createElement('div');
   panelsEl.className = 'cct-panels';
@@ -13,14 +15,26 @@ export default function decorate(block) {
     const tabLink = labelDiv?.querySelector('a');
     const label = tabLink?.textContent.trim() || `Tab ${i + 1}`;
 
+    const tabId = `cct-tab-${i}`;
+    const panelId = `cct-panel-${i}`;
+
     const tab = document.createElement('button');
     tab.type = 'button';
+    tab.id = tabId;
     tab.className = i === 0 ? 'cct-tab active' : 'cct-tab';
     tab.textContent = label;
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    tab.setAttribute('aria-controls', panelId);
+    tab.setAttribute('tabindex', i === 0 ? '0' : '-1');
     tabBar.append(tab);
 
     const panel = document.createElement('div');
     panel.className = i === 0 ? 'cct-panel active' : 'cct-panel';
+    panel.id = panelId;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', tabId);
+    if (i !== 0) panel.hidden = true;
 
     const table = tableDiv?.querySelector('table');
     const rows = table ? [...table.querySelectorAll('tbody tr')] : [];
@@ -92,14 +106,13 @@ export default function decorate(block) {
     prevBtn.className = 'cct-arrow cct-arrow-prev';
     prevBtn.setAttribute('aria-label', 'Previous');
     prevBtn.innerHTML = '&#x2190;';
-    prevBtn.hidden = true; // always hidden at scroll position 0
+    prevBtn.hidden = true;
 
     const nextBtn = document.createElement('button');
     nextBtn.type = 'button';
     nextBtn.className = 'cct-arrow cct-arrow-next';
     nextBtn.setAttribute('aria-label', 'Next');
     nextBtn.innerHTML = '&#x2192;';
-    // next starts visible; hidden only if all items fit (checked after layout)
 
     const updateArrows = () => {
       prevBtn.hidden = carousel.scrollLeft < 1;
@@ -118,7 +131,6 @@ export default function decorate(block) {
     nextBtn.addEventListener('click', () => carousel.scrollBy({ left: getScrollAmount(), behavior: 'smooth' }));
     carousel.addEventListener('scroll', updateArrows, { passive: true });
 
-    // Only check scroll bounds once CSS has been applied (clientWidth > 0)
     const ro = new ResizeObserver(() => {
       if (carousel.clientWidth > 0) {
         updateArrows();
@@ -133,9 +145,33 @@ export default function decorate(block) {
     panelsEl.append(panel);
 
     tab.addEventListener('click', () => {
-      [...tabBar.querySelectorAll('.cct-tab')].forEach((t, j) => t.classList.toggle('active', j === i));
-      [...panelsEl.querySelectorAll('.cct-panel')].forEach((p, j) => p.classList.toggle('active', j === i));
+      [...tabBar.querySelectorAll('[role="tab"]')].forEach((t, j) => {
+        t.setAttribute('aria-selected', j === i ? 'true' : 'false');
+        t.setAttribute('tabindex', j === i ? '0' : '-1');
+        t.classList.toggle('active', j === i);
+      });
+      [...panelsEl.querySelectorAll('[role="tabpanel"]')].forEach((p, j) => {
+        p.hidden = j !== i;
+        p.classList.toggle('active', j === i);
+      });
     });
+  });
+
+  // Arrow key navigation within the tab list
+  tabBar.addEventListener('keydown', (e) => {
+    const tabs = [...tabBar.querySelectorAll('[role="tab"]')];
+    const idx = tabs.indexOf(document.activeElement);
+    if (idx === -1) return;
+    let next = -1;
+    if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+    else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = tabs.length - 1;
+    if (next !== -1) {
+      e.preventDefault();
+      tabs[next].focus();
+      tabs[next].click();
+    }
   });
 
   block.textContent = '';

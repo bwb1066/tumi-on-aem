@@ -1,4 +1,7 @@
 export default function decorate(block) {
+  block.setAttribute('role', 'region');
+  block.setAttribute('aria-label', 'Best of Sale');
+
   const rows = [...block.children];
 
   // First row is the heading
@@ -67,6 +70,7 @@ export default function decorate(block) {
         const [, listPrice] = listMatch;
         const s = document.createElement('s');
         s.textContent = listPrice;
+        s.setAttribute('aria-label', `List price: ${listPrice}`);
         priceEl.append(s, ' ');
       }
       if (saleMatch) {
@@ -74,6 +78,7 @@ export default function decorate(block) {
         const sale = document.createElement('span');
         sale.className = 'bosc-card-sale-price';
         sale.textContent = salePrice;
+        sale.setAttribute('aria-label', `Sale price: ${salePrice}`);
         priceEl.append(sale);
       }
       infoDiv.append(priceEl);

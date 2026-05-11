@@ -1,4 +1,6 @@
 export default function decorate(block) {
+  block.setAttribute('role', 'region');
+  block.setAttribute('aria-label', 'Community photos');
   const rows = [...block.children];
   const [headerRow, ...cardRows] = rows;
 
@@ -42,6 +44,7 @@ export default function decorate(block) {
       if (link) {
         const a = document.createElement('a');
         a.href = link.href;
+        a.setAttribute('aria-label', 'View on Instagram');
         a.append(pic);
         imgWrap.append(a);
       } else {
@@ -50,8 +53,9 @@ export default function decorate(block) {
 
       const igIcon = document.createElement('span');
       igIcon.className = 'ugc-ig-icon';
+      igIcon.setAttribute('role', 'img');
       igIcon.setAttribute('aria-label', 'Instagram');
-      igIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>';
+      igIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>';
 
       imgWrap.append(igIcon);
       inner.append(imgWrap);

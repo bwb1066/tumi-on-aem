@@ -117,3 +117,13 @@ main > .section:has(.video-hero) > div {
   padding: 0;
   line-height: 1;
 }
+
+.video-hero-pause:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.video-hero-cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}

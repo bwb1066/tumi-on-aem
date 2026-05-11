@@ -160,6 +160,43 @@ button {
   font: inherit;
 }
 
+/* skip link */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  padding: 10px 20px;
+  background: var(--text-color);
+  color: var(--background-color);
+  font-size: 14px;
+  z-index: 10000;
+  text-decoration: none;
+  transition: top 0s;
+}
+
+.skip-link:focus-visible {
+  top: 0;
+}
+
+/* screen-reader-only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* global keyboard focus indicator */
+:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+}
+
 /* links */
 a:any-link {
   color: var(--link-color);

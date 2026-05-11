@@ -2,22 +2,35 @@ import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 function buildInputRow(placeholder) {
+  const id = `footer-input-${Math.random().toString(36).slice(2)}`;
   const row = document.createElement('div');
   row.className = 'footer-input-row';
+
+  const label = document.createElement('label');
+  label.htmlFor = id;
+  label.className = 'sr-only';
+  label.textContent = placeholder;
+
   const input = document.createElement('input');
-  input.type = 'text';
+  input.type = 'email';
+  input.id = id;
   input.placeholder = placeholder;
+  input.setAttribute('autocomplete', 'email');
+
   const btn = document.createElement('button');
   btn.type = 'button';
-  btn.setAttribute('aria-label', 'Submit');
+  btn.setAttribute('aria-label', 'Subscribe');
   btn.textContent = '→';
-  row.append(input, btn);
+
+  row.append(label, input, btn);
   return row;
 }
 
 function buildNavCol(liItems) {
-  const col = document.createElement('div');
+  const col = document.createElement('nav');
   col.className = 'footer-nav-col';
+  const firstHeading = liItems[0]?.querySelector(':scope > p > a') || liItems[0]?.querySelector(':scope > a');
+  if (firstHeading) col.setAttribute('aria-label', firstHeading.textContent.trim());
   liItems.forEach((li, i) => {
     const h = document.createElement('h3');
     if (i > 0) h.className = 'footer-nav-heading-below';
@@ -95,13 +108,19 @@ export default async function decorate(block) {
   logoDiv.className = 'footer-logo';
   if (logoPic) logoDiv.append(logoPic.cloneNode(true));
 
-  const socialsDiv = document.createElement('div');
+  const socialsDiv = document.createElement('nav');
   socialsDiv.className = 'footer-socials';
+  socialsDiv.setAttribute('aria-label', 'Social media');
   socialItems.forEach((li) => {
     const pic = li.querySelector('picture');
     if (!pic) return;
     const a = li.querySelector('a');
     const wrapper = a ? a.cloneNode(true) : document.createElement('span');
+    if (a && !wrapper.getAttribute('aria-label')) {
+      const img = wrapper.querySelector('img');
+      const label = img?.alt || a.textContent.trim() || 'Social media';
+      if (!wrapper.textContent.trim()) wrapper.setAttribute('aria-label', label);
+    }
     if (!a) wrapper.append(pic.cloneNode(true));
     socialsDiv.append(wrapper);
   });

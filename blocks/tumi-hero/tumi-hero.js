@@ -1,4 +1,7 @@
 export default function decorate(block) {
+  block.setAttribute('aria-roledescription', 'carousel');
+  block.setAttribute('aria-label', 'Featured products');
+
   const rows = [...block.children];
   const count = rows.length;
 
@@ -13,6 +16,9 @@ export default function decorate(block) {
 
     const slide = document.createElement('div');
     slide.className = 'th-slide';
+    slide.setAttribute('role', 'group');
+    slide.setAttribute('aria-roledescription', 'slide');
+    slide.setAttribute('aria-label', `${i + 1} of ${count}`);
     slide.setAttribute('aria-hidden', i !== 0);
 
     const imgDiv = document.createElement('div');
@@ -61,6 +67,12 @@ export default function decorate(block) {
     return { el: slide, prevBtn, nextBtn };
   });
 
+  // Live region announces slide changes to screen readers
+  const liveRegion = document.createElement('div');
+  liveRegion.className = 'sr-only';
+  liveRegion.setAttribute('aria-live', 'polite');
+  liveRegion.setAttribute('aria-atomic', 'true');
+
   let current = 0;
 
   function goTo(index) {
@@ -71,6 +83,7 @@ export default function decorate(block) {
       prevBtn.hidden = current === 0;
       nextBtn.hidden = current === count - 1;
     });
+    liveRegion.textContent = `Slide ${current + 1} of ${count}`;
   }
 
   slides.forEach(({ prevBtn, nextBtn }) => {
@@ -83,7 +96,7 @@ export default function decorate(block) {
   slides.forEach(({ el }) => track.append(el));
 
   block.textContent = '';
-  block.append(track);
+  block.append(track, liveRegion);
 
   goTo(0);
 }
