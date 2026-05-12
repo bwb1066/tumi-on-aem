@@ -189,45 +189,47 @@ export default async function decorate(block) {
   if (navTools) {
     const pictures = [...navTools.querySelectorAll('picture')];
     navTools.textContent = '';
-    pictures.forEach((pic) => {
-      const isSearch = !!pic.querySelector('img[src*="search"]');
-      if (isSearch) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'nav-tools-search';
-        btn.setAttribute('aria-label', 'Open Porter — TUMI Brand Concierge');
-        btn.append(pic);
-        navTools.append(btn);
+    // Sparkle button opens Porter — TUMI Brand Concierge
+    const sparkBtn = document.createElement('button');
+    sparkBtn.type = 'button';
+    sparkBtn.className = 'nav-tools-concierge';
+    sparkBtn.setAttribute('aria-label', 'Open Porter — TUMI Brand Concierge');
+    sparkBtn.innerHTML = `<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 2L10.8 7.2L16 9L10.8 10.8L9 16L7.2 10.8L2 9L7.2 7.2L9 2Z" fill="currentColor"/>
+      <path d="M19 13L19.9 15.6L22.5 16.5L19.9 17.4L19 20L18.1 17.4L15.5 16.5L18.1 15.6L19 13Z" fill="currentColor"/>
+      <circle cx="5.5" cy="18.5" r="1.5" fill="currentColor"/>
+    </svg>`;
+    navTools.append(sparkBtn);
 
-        let conciergeOpen = null;
-        btn.addEventListener('click', async () => {
-          if (conciergeOpen) { conciergeOpen(); return; }
+    let conciergeOpen = null;
+    sparkBtn.addEventListener('click', async () => {
+      if (conciergeOpen) { conciergeOpen(); return; }
 
-          // Load CSS once
-          if (!document.querySelector('link[href*="brand-concierge.css"]')) {
-            const cssLink = document.createElement('link');
-            cssLink.rel = 'stylesheet';
-            cssLink.href = `${window.hlx.codeBasePath}/blocks/brand-concierge/brand-concierge.css`;
-            document.head.append(cssLink);
-          }
-
-          const { default: openConcierge, init } = await import('../brand-concierge/brand-concierge.js');
-          init({
-            supabaseUrl: getMetadata('concierge-url') || 'https://cyjquwhkmzyedkwuaffc.supabase.co',
-            anonKey: getMetadata('concierge-key'),
-            siteKey: getMetadata('concierge-site') || 'tumi',
-            brandName: 'TUMI',
-            chatTitle: 'Porter — TUMI Brand Concierge',
-            noCssAutoLoad: true,
-          });
-          conciergeOpen = openConcierge;
-          openConcierge();
-        });
-      } else {
-        const item = document.createElement('div');
-        item.append(pic);
-        navTools.append(item);
+      if (!document.querySelector('link[href*="brand-concierge.css"]')) {
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = `${window.hlx.codeBasePath}/blocks/brand-concierge/brand-concierge.css`;
+        document.head.append(cssLink);
       }
+
+      const { default: openConcierge, init } = await import('../brand-concierge/brand-concierge.js');
+      init({
+        supabaseUrl: getMetadata('concierge-url') || 'https://cyjquwhkmzyedkwuaffc.supabase.co',
+        anonKey: getMetadata('concierge-key'),
+        siteKey: getMetadata('concierge-site') || 'tumi',
+        brandName: 'TUMI',
+        chatTitle: 'Porter — TUMI Brand Concierge',
+        noCssAutoLoad: true,
+      });
+      conciergeOpen = openConcierge;
+      openConcierge();
+    });
+
+    // Nav tools order: [0] search, [1] account, [2] bag — all plain icons
+    pictures.forEach((pic) => {
+      const item = document.createElement('div');
+      item.append(pic);
+      navTools.append(item);
     });
   }
 

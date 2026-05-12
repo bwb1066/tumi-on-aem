@@ -1369,8 +1369,7 @@ header nav .nav-tools {
   gap: 16px;
 }
 
-header nav .nav-tools > div,
-header nav .nav-tools-search {
+header nav .nav-tools > div {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -1381,6 +1380,56 @@ header nav .nav-tools-search {
   border: none;
   padding: 0;
   color: inherit;
+}
+
+header nav .nav-tools-concierge {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 2px;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+header nav .nav-tools-concierge:hover {
+  opacity: 1;
+}
+
+header nav .nav-tools-concierge:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+header nav .nav-tools-concierge svg {
+  width: 20px;
+  height: 20px;
+  animation: concierge-twinkle 3s ease-in-out infinite;
+}
+
+@keyframes concierge-twinkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 2px rgb(255 255 255 / 40%));
+  }
+
+  25% {
+    transform: scale(1.15) rotate(10deg);
+    filter: drop-shadow(0 0 5px rgb(255 255 255 / 90%));
+  }
+
+  50% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 2px rgb(255 255 255 / 40%));
+  }
+
+  75% {
+    transform: scale(1.1) rotate(-8deg);
+    filter: drop-shadow(0 0 4px rgb(255 255 255 / 70%));
+  }
 }
 
 header nav .nav-tools picture {
