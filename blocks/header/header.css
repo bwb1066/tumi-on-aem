@@ -1369,10 +1369,18 @@ header nav .nav-tools {
   gap: 16px;
 }
 
-header nav .nav-tools > div {
+header nav .nav-tools > div,
+header nav .nav-tools-search {
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+header nav .nav-tools-search {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
 }
 
 header nav .nav-tools picture {

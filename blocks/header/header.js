@@ -183,15 +183,51 @@ export default async function decorate(block) {
     }
   }
 
-  // Flatten tools: extract all pictures into direct children of nav-tools
+  // Flatten tools: extract all pictures into direct children of nav-tools.
+  // The search icon becomes a real button that opens the Porter brand concierge.
   const navTools = nav.querySelector('.nav-tools');
   if (navTools) {
     const pictures = [...navTools.querySelectorAll('picture')];
     navTools.textContent = '';
     pictures.forEach((pic) => {
-      const item = document.createElement('div');
-      item.append(pic);
-      navTools.append(item);
+      const isSearch = !!pic.querySelector('img[src*="search"]');
+      if (isSearch) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'nav-tools-search';
+        btn.setAttribute('aria-label', 'Open Porter — TUMI Brand Concierge');
+        btn.append(pic);
+        navTools.append(btn);
+
+        let conciergeOpen = null;
+        btn.addEventListener('click', async () => {
+          if (conciergeOpen) { conciergeOpen(); return; }
+
+          // Load CSS once
+          if (!document.querySelector('link[href*="brand-concierge.css"]')) {
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = `${window.hlx.codeBasePath}/blocks/brand-concierge/brand-concierge.css`;
+            document.head.append(cssLink);
+          }
+
+          const { default: openConcierge, init } = await import('../brand-concierge/brand-concierge.js');
+          init({
+            supabaseUrl: getMetadata('concierge-url') || 'https://cyjquwhkmzyedkwuaffc.supabase.co',
+            anonKey: getMetadata('concierge-key'),
+            siteKey: getMetadata('concierge-site') || 'tumi',
+            brandName: 'TUMI',
+            chatTitle: 'Porter — TUMI Brand Concierge',
+            noCssAutoLoad: true,
+          });
+          conciergeOpen = openConcierge;
+          openConcierge();
+        });
+      } else {
+        const item = document.createElement('div');
+        item.append(pic);
+        navTools.append(item);
+      }
     });
   }
 
